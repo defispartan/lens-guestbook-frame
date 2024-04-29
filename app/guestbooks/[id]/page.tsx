@@ -40,7 +40,8 @@ export async function generateMetadata(
 
   const frameMetadata: Record<string, string> = {
     "of:accepts:lens": "1.0.0",
-    "of:post_url": `${process.env["HOST"]}/api/vote?id=${id}`,
+    "of:version": "vNext",
+    "of:post_url": `${process.env["HOST"]}/api/guestbook?id=${id}`,
     "of:image": `${process.env["HOST"]}/api/image?id=${id}`,
     "of:button:1": "Sign Guestbook",
   };
