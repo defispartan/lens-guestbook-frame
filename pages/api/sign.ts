@@ -81,7 +81,7 @@ export default async function handler(
         <head>
           <title>Signed Guestbook</title>
           <meta property="og:title" content="Signed Guestbook">
-          <meta name="of:version" content="1.0.0">
+          <meta name="of:version" content="vNext">
           <meta name="of:accepts:lens" content="1.0.0">
           <meta name="of:post_url" content="${
             process.env["HOST"]
