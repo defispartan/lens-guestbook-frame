@@ -32,7 +32,7 @@ export default async function handler(
 
     const profilesQuery = `
       query GuestbookProfiles($request: ProfilesRequest!) {
-        result: profiles(request: $request) {
+        profiles(request: $request) {
             items{
               handle{
                 localName
@@ -63,26 +63,29 @@ export default async function handler(
         variables: profilesVariables,
       }),
     };
-
-    const profilesResponse = await fetch(
-      "https://api-v2.lens.dev",
-      profilesOptions
-    );
-    const profilesData = await profilesResponse.json();
-    const sortedSigners = profilesData.result.profiles.items
-      .map(
-        (profile: {
-          handle: { localName: string };
-          stats: { followers: number };
-        }) => ({
-          name: profile.handle.localName,
-          followers: profile.stats.followers,
-        })
-      )
-      .sort(
-        (a: { followers: number }, b: { followers: number }) =>
-          b.followers - a.followers
+    let sortedSigners: any[] = [];
+    if (signedUsers.length > 0) {
+      const profilesResponse = await fetch(
+        "https://api-v2.lens.dev",
+        profilesOptions
       );
+      const profilesData = await profilesResponse.json();
+
+      sortedSigners = profilesData.data.profiles.items
+        .map(
+          (profile: {
+            handle: { localName: string };
+            stats: { followers: number };
+          }) => ({
+            name: profile.handle.localName,
+            followers: profile.stats.followers,
+          })
+        )
+        .sort(
+          (a: { followers: number }, b: { followers: number }) =>
+            b.followers - a.followers
+        );
+    }
 
     const svg = await satori(
       <div
